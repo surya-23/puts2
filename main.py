@@ -1,19 +1,129 @@
+
 from flask import Flask, request
+import statistics
 
 app = Flask(__name__)
 
-@app.route('/')
-def index():
-    return 'Usage;\n<Operation>?A=<Value1>&B=<Value2>\n'
+
+@app.route('/average', methods=['GET'])
+def average():
+    bar = request.args.to_dict()
+    print(bar)
+    s = bar['X']
+    p = s.split(",")
+    sum = 0
+    for x in p :
+        if x.find('.') == -1 :
+            sum = sum + int(x)
+        else :
+            sum = sum +float(x)
+    d = sum/len(p)
+    return str(d)
+
+@app.route('/mean', methods=['GET'])
+def mean():
+    bar = request.args.to_dict()
+    print(bar)
+    s = bar['X']
+    p = s.split(",")
+    sum = 0
+    for x in p :
+        if x.find('.') == -1 :
+            sum = sum + int(x)
+        else :
+            sum = sum +float(x)
+    d = sum/len(p)
+    return str(d)
 
 
-@app.route('/add')
-def addition():
-    value1=request.args.get('A',default = 0, type = int)
-    value2=request.args.get('B',default = 0, type = int)
-    result=value1+value2
-    return '%d \n' % result
+
+@app.route('/median', methods=['GET'])
+def median():
+    bar = request.args.to_dict()
+    print(bar)
+    s = bar['X']
+    p = s.split(",")
+
+    i = 0
+    for x in p :
+        if x.find('.') == -1 :
+            p[i] = int(x)
+        else :
+            p[i] = float(x)
+        i = i+1
+    d = statistics.median(p)
+    return str(d)
+
+@app.route('/max_', methods=['GET'])
+def max_():
+    bar = request.args.to_dict()
+    print(bar)
+    s = bar['X']
+    p = s.split(",")
+
+    i = 0
+    for x in p :
+        if x.find('.') == -1 :
+            p[i] = int(x)
+        else :
+            p[i] = float(x)
+        i = i+1
+    d = max(p)
+    return str(d)
+
+@app.route('/min_', methods=['GET'])
+def min_():
+    bar = request.args.to_dict()
+    print(bar)
+    s = bar['X']
+    p = s.split(",")
+
+    i = 0
+    for x in p :
+        if x.find('.') == -1 :
+            p[i] = int(x)
+        else :
+            p[i] = float(x)
+        i = i+1
+    d = min(p)
+    return str(d)
 
 
-if __name__ == "__main__":
-    app.run()
+
+@app.route('/add', methods=['GET'])
+def add():
+    bar = request.args.to_dict()
+    print(bar)
+    s = bar['X']
+    p = s.split(",")
+    sum = 0
+    for x in p :
+        if x.find('.') == -1 :
+            sum = sum + int(x)
+        else :
+            sum = sum +float(x)
+
+    return str(sum)
+
+
+
+
+@app.route('/mul', methods=['GET'])
+def mul():
+    bar = request.args.to_dict()
+    print(bar)
+    s = bar['X']
+    p = s.split(",")
+    sum = 1
+    for x in p :
+        if x.find('.') == -1 :
+            sum = sum * int(x)
+        else :
+            sum = sum *float(x)
+
+    return str(sum)
+
+
+
+if __name__ == '__main__':
+    app.run(port = 80 ,debug=True)
